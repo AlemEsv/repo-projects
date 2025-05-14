@@ -2,6 +2,28 @@
 
 ### Ejercicio 1: Crear un Epic y vincular historias de usuario
 
+1. Crea un nuevo Epic en tu Kanban board llamado "Gestión de Contadores".
+
+	![](assets/images/Pasted%20image%2020250514173045.png)
+
+2. Vincula las historias de usuario existentes, como "Need a service that has a counter", "Must allow multiple counters", y "Counters can be reset" a este Epic.
+
+	`Need a service that has a counter`
+	
+	![](assets/images/Pasted%20image%2020250514173223.png)
+
+	`Must allow multiple counters`
+	
+	![](assets/images/Pasted%20image%2020250514173306.png)
+
+	`Counters can be reset`
+	
+	![](assets/images/Pasted%20image%2020250514173411.png)
+
+	`Generate counter usage reports` (Nueva historia de usuario)
+
+	![](assets/images/Pasted%20image%2020250514175420.png)
+
 ### Ejercicio 2: Uso avanzado de etiquetas (labels) para priorización y estado
 
 a. **Creación de etiquetas(labels) de prioridad.**
