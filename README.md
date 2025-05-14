@@ -44,7 +44,7 @@ Teniendo completado la información de los estados de cada **issue** para facili
 
 Se ha visto comentarios de stakeholders que piden necesitan una funcionalidad para poder exportar los datos del contador a CSV, por lo que se creará un nuevo **issue** que aborde dicha funcionalidad.
 
-![alt](data-CSV.png)
+![alt](assets/images/data-CSV.png)
 
 Para mayor detalle en la visualización de los criterios de aceptación:
 
@@ -67,6 +67,6 @@ Then the system shows a message: "No counters to export"
 
 Luego se le colocan los labels de alta prioridad y se denota que estará listo para entrár al sprint.
 
-![alt](labels-CSV.png)
+![alt](assets/images/labels-CSV.png)
 
 ### Ejercicio 6: Análisis del flujo de trabajo usando el Kanban board
