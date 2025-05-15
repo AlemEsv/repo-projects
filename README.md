@@ -113,7 +113,7 @@ When the user attempts to export counters to CSV
 Then the system shows a message: "No counters to export"
 ```
 
-Luego se le colocan los labels de alta prioridad y se denota que estará listo para entrár al sprint.
+Luego se le colocan los labels de alta prioridad y se denota que estará listo para entrár al siguiente sprint.
 
 ![alt](assets/images/labels-CSV.png)
 
