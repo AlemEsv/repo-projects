@@ -1,5 +1,21 @@
 # Ejercicios (WIP)
 
+## Descripción:
+
+Ejercicio de adaptación para mantener una gestión ágil de proyectos con GitHub Projects, configuración de Kanban Board y creación de historias de usuario.
+
+**Objetivos:**
+
+- Configurar y personalizar un Kanban board en GitHub Projects para gestionar el flujo de trabajo de manera eficiente.
+
+- Crear y utilizar plantillas de issues en GitHub para estandarizar la escritura de historias de usuario.
+
+- Organizar y priorizar el product backlog mediante la creación, edición y reordenación de historias de usuario en el Kanban board.
+
+- Realizar el refinamiento del backlog, preparando las historias para el sprint y asegurando la correcta asignación de etiquetas y categorías.
+
+- Utilizar GitHub Projects como una herramienta efectiva para la planificación, seguimiento y entrega de proyectos ágiles.  
+
 ### Ejercicio 1: Crear un Epic y vincular historias de usuario
 
 1. Crea un nuevo Epic en tu Kanban board llamado "Gestión de Contadores".
@@ -60,7 +76,17 @@ Teniendo completado la información de los estados de cada **issue** para facili
 
 ### Ejercicio 3: Automatización de Kanban board con GitHub Actions
 
-### Ejercicio 4: Seguimiento de tiempo y esfuerzo usando GitHub Projects
+### Ejercicio 4: Seguimiento de tiempo y esfuerzo
+
+Creación de un nuevo campo para concretar entre todo el equipo las horas necesarias que tomarán cada uno de los issues en el sprint.
+
+![alt](assets/images/stimated-effort.png)
+
+Se coloca estimaciones para cada uno de los **issues abiertos** que existen en el momento, así saber qué funcionalidades costarán menos esfuerzo de realizar.
+
+![alt](assets/images/stim-kanba.png)
+
+Esto nos ayuda como equipo a tener un seguimiento más preciso del esfuerzo que realmente estamos dedicando, a identificar posibles desviaciones respecto a lo estimado y a tomar decisiones más informadas en las retrospectivas.
 
 ### Ejercicio 5: Refinamiento de backlog basado en comentarios de los stakeholders
 
