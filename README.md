@@ -1,4 +1,4 @@
-# Ejercicios (WIP)
+# Ejercicios
 
 ## Descripción:
 
@@ -225,3 +225,34 @@ Luego se le colocan los labels de alta prioridad y se denota que estará listo p
 ![alt](assets/images/labels-CSV.png)
 
 ### Ejercicio 6: Análisis del flujo de trabajo usando el Kanban board
+(In progress...)
+
+## Actividad: Gestión ágil de sprints con GitHub, planificación, ejecución y cierre de Sprints
+
+### Configuración de Sprints
+
+GitHub configurará tres sprints de forma predeterminada para empezar. Luego, creará nuevos sprints automáticamente según sea necesario.
+
+![alt](assets/images/select-sprint.png)
+
+![alt](assets/images/select-item.png)
+
+Sprint plan:
+
+Asignaremos puntos de historia estimados y un sprint
+![alt](assets/images/story-sprints.png)
+
+y moveremos las historias del Product Backlog al Sprint Backlog para construir nuestro plan.
+
+![alt text](assets/images/sprint-backlog.png)
+
+Simulación de flujo de trabajo diario:
+
+Se moverán historias desde la parte superior del Sprint Backlog a la columna In Progress, como se muestra a continuación.
+
+![alt text](assets/images/simulation-daily.png)
+
+Al finalizar las revisiones en Q/A, veremos como el backlog Kanba habrá cambiado.
+
+![alt text](assets/images/review.png)
+
