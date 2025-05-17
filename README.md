@@ -256,3 +256,24 @@ Al finalizar las revisiones en Q/A, veremos como el backlog Kanba habrá cambiad
 
 ![alt text](assets/images/review.png)
 
+### Configuración del Burndown Chart
+
+- Hacer click en el menú desplegable junto a `Backlog` y seleccionar `Generate Chart`
+
+	![](assets/images/Pasted%20image%2020250517134919.png)
+
+- Nos redirige a `Insights` donde vemos un gráfico predeterminado para el proyecto
+
+	![](assets/images/Pasted%20image%2020250517135609.png)
+
+- Para mostrar el estado de las historias en la columna `Done` en lugar del gráfico predeterminado, se aplica un filtro.
+
+	![](assets/images/Pasted%20image%2020250517135815.png)
+
+- Configuramos el gráfico
+
+	![](assets/images/Pasted%20image%2020250517140140.png)
+
+- Para centrar el gráfico en un sprint específico, usamos la opción de filtro. Escribimos **sprint:** en el cuadro de filtro y seleccionamos el sprint como **Sprint 1**
+
+	![](assets/images/Pasted%20image%2020250517140723.png)
