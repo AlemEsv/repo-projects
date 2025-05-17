@@ -1,5 +1,7 @@
 # Ejercicios
 
+![mapa mental github project](assets/images/github-project.png)
+
 ## Descripción:
 
 Ejercicio de adaptación para mantener una gestión ágil de proyectos con GitHub Projects, configuración de Kanban Board y creación de historias de usuario.
