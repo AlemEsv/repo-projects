@@ -12,7 +12,9 @@ jobs:
               uses: actions/checkout@v3
 
             - name: Check GitHub CLI version
-              run: gh --version
+              run: gh --version # If gh < 2.7,
+                                # gh project doesn't work and
+                                # closingIssuesReferences data not available
             
             - name: Authenticate GitHub CLI
               run: echo "${{ secrets.GH_TOKEN }}" | gh auth login --with-token
@@ -20,8 +22,8 @@ jobs:
             - name: Find and move project items
               env:
                 PR_NUMBER: ${{ github.event.pull_request.number }}
-                PROJECT_NUMBER: 5
-                ORG: "@me"
+                PROJECT_NUMBER: 5 # projeqct number asociated with repo
+                ORG: "@me" # owner of the personal authentication token (for project, not PR)
                 STATUS_NAME: "In Progress"
               run: |
                 # Find Issue number if exists
@@ -51,16 +53,14 @@ jobs:
                 echo "Fetching item ID for issue #$ISSUE_NUMBER..."
                 ITEM_ID=$(gh project item-list "$PROJECT_NUMBER" --owner "$ORG" \
                     --format json --jq ".items | map(select(.content.number == "$ISSUE_NUMBER").id)[0]")
+
+                # Move project item
+                echo "Updating item status to '$STATUS_NAME'..."
+                gh project item-edit --project-id "$PROJECT_ID" --id "$ITEM_ID" \
+                    --field-id "$FIELD_ID" --single-select-option-id "$OPTION_ID"
                 
                 echo "ISSUE_NUMBER: $ISSUE_NUMBER"
                 echo "PROJECT_ID: $PROJECT_ID"
                 echo "FIELD_ID: $FIELD_ID"
                 echo "OPTION_ID: $OPTION_ID"
                 echo "ITEM_ID: $ITEM_ID"
-
-                # Move project item
-                echo "Updating item status to '$STATUS_NAME'..."
-                gh project item-edit --project-id "$PROJECT_ID" --id "$ITEM_ID" \
-                    --field-id "$FIELD_ID" --single-select-option-id "$OPTION_ID"
-
-
