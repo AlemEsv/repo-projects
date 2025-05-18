@@ -279,3 +279,38 @@ Al finalizar las revisiones en Q/A, veremos como el backlog Kanba habrá cambiad
 - Para centrar el gráfico en un sprint específico, usamos la opción de filtro. Escribimos **sprint:** en el cuadro de filtro y seleccionamos el sprint como **Sprint 1**
 
 	![](assets/images/Pasted%20image%2020250517140723.png)
+
+### Gestionar el trabajo incompleto
+
+- Seleccionamos la historia **Deploy service to the cloud** en la columna In Progress para abrirla.
+
+	![](assets/images/Pasted%20image%2020250518091923.png)
+
+- Hacemos clic en la opción **Estimate**.
+
+	![](assets/images/Pasted%20image%2020250518092053.png)
+
+- El desarrollador ha determinado que no se gastaron 5 story points de esfuerzo en esta historia y simplemente se quedaron sin tiempo. Estiman que se gastaron 2 story points. Introducimos **2** en el campo de texto para cambiar los story points. Ahora podemos ver que los story points están configurados en 2.
+
+	![](assets/images/Pasted%20image%2020250518091719.png)
+
+- Ahora los story points se han ajustado para reflejar el esfuerzo que se hizo en este sprint. Movemos esta historia a la columna **Done**.
+
+	![](assets/images/Pasted%20image%2020250518092428.png)
+
+- Se necesita crear una nueva historia para documentar el trabajo restante. Completamos el nuevo issue llenando el título y la descripción para completar la historia. Asignamos la etiqueta **technical debt**, similar a la historia original. Elegimos el proyecto como **Devops-agile**.
+
+	![](assets/images/Pasted%20image%2020250518095227.png)
+
+- Dado que este nuevo issue se agregará a la columna Product Backlog, abrimos la lista desplegable junto a la opción **Status** y elegimos **Product Backlog**. Establecemos el **Estimate** en **3**, representando los story points restantes de la historia no terminada.
+
+	![](assets/images/Pasted%20image%2020250518095452.png)
+
+	![](assets/images/Pasted%20image%2020250518095601.png)
+
+- Aseguramos de que la historia esté en la parte superior de la columna Product Backlog para ser seleccionada en el próximo sprint.
+
+	Aquí necesitamos agregar la etiqueta de prioridad `High priority` debido a que las columnas están ordenadas bajo ese criterio.
+
+	![](assets/images/Pasted%20image%2020250518095949.png)
+
