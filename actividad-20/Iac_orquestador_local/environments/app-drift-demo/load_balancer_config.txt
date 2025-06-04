@@ -1,0 +1,4 @@
+Load Balancer Configuration:
+Target Server 1 ID: ef1a93bc89da74b57d6da05ea4a411b3d488b428
+Target Server 2 ID: d2c4f6abab3d86bd02dfa73360aff88852488c28
+Traffic distributed between server_1.txt and server_2.txt

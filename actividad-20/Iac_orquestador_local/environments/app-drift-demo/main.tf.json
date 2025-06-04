@@ -1,0 +1,32 @@
+{
+    "resource": {
+      "local_file": {
+        "local_server_1": {
+          "filename": "${path.module}/local_server_1.txt",
+          "content": "Server 1 is active and running on port 8081"
+        },
+        "local_server_2": {
+          "filename": "${path.module}/local_server_2.txt",
+          "content": "Server 2 is active and running on port 8082"
+        },
+        "load_balancer": {
+          "filename": "${path.module}/load_balancer_config.txt",
+          "content": "Load Balancer Configuration:\nTarget Server 1 ID: ${local_file.local_server_1.id}\nTarget Server 2 ID: ${local_file.local_server_2.id}\nTraffic distributed between server_1.txt and server_2.txt"
+        }
+      }
+    },
+    "output": {
+      "load_balancer_file": {
+        "value": "${local_file.load_balancer.filename}"
+      },
+      "server_1_file": {
+        "value": "${local_file.local_server_1.filename}"
+      },
+      "server_2_file": {
+        "value": "${local_file.local_server_2.filename}"
+      },
+      "load_balancer_content": {
+        "value": "${local_file.load_balancer.content}"
+      }
+    }
+  }

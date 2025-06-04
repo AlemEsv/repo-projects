@@ -1,0 +1,20 @@
+{
+    "variable": {
+      "name": {
+        "type": "string",
+        "description": "Nombre del servidor local",
+        "default": "hello-world-module-default"
+      },
+      "network": {
+        "type": "string",
+        "description": "Nombre de la red local",
+        "default": "lab-net-module-default"
+      }
+    },
+    "output": {
+      "module_network_info": {
+        "value": "Este es el network.tf.json del modulo base",
+        "description": "Informacion desde el network.tf.json del modulo."
+      }
+    }
+  }
