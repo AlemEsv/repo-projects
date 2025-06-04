@@ -193,3 +193,11 @@ Cuando cambian variables de configuración, Terraform los mapea a **triggers** q
      * Lea `config.cfg` y `run.sh`.
      * Genere **automáticamente** un par `network.tf.json` + `main.tf.json` equivalente.
      * Verifique con `terraform plan` que el resultado es igual al script legacy.
+
+
+##Ejercicios:
+
+#### Parte 1: Drift Avanzado
+Creamos un entorno app-drift-demo con un maint.tf.json. Este archivo nos definió 2 servidores local_file y balanceador que dependía de los IDs de los servidores. Luego modificamos el servidor manualmente y terraform plan detectara el cambio del servidor y la necesidad de actualizar el balanceador debido a la dependencia de IDs.
+
+  ![alt](imagenes/1.png)
