@@ -1,12 +1,13 @@
-### Actividad: Patrones para módulos de infraestructura
+# Actividad: Patrones para módulos de infraestructura
 
-En esta actividad: 
+En esta actividad:
+
 1. Profundizaremos en los patrones **Singleton**, **Factory**, **Prototype**, **Composite** y **Builder** aplicados a IaC.
 2. Analizaremos y extenderemos el código Python existente para generar configuraciones Terraform locales.
 3. Diseñaremos soluciones propias, escribir tests y evaluar escalabilidad.
 
+## Fase 0: Preparación
 
-#### Fase 0: Preparación
 Utiliza para esta actividad el siguiente [proyecto](https://github.com/kapumota/DS/tree/main/2025-1/local_iac_patterns) como referencia.
 
 1. **Configura** el entorno virtual:
@@ -16,6 +17,7 @@ Utiliza para esta actividad el siguiente [proyecto](https://github.com/kapumota/
    python -m venv .venv && source .venv/bin/activate
    pip install --upgrade pip
    ```
+
 2. **Genera** la infraestructura base y valida:
 
    ```bash
@@ -24,14 +26,14 @@ Utiliza para esta actividad el siguiente [proyecto](https://github.com/kapumota/
    terraform init
    terraform validate
    ```
+
 3. **Inspecciona** `terraform/main.tf.json` para ver los bloques `null_resource` generados.
 
-
-#### Fase 1: Exploración y análisis
+## Fase 1: Exploración y análisis
 
 Para cada patrón, localiza el archivo correspondiente y responde (los códigos son de referencia):
 
-##### 1. Singleton
+### 1. Singleton
 
 ```python
 # singleton.py
@@ -58,7 +60,7 @@ class ConfigSingleton(metaclass=SingletonMeta):
 
 * **Tarea**: Explica cómo `SingletonMeta` garantiza una sola instancia y el rol del `lock`.
 
-#### 2. Factory
+### 2. Factory
 
 ```python
 # factory.py
@@ -83,7 +85,7 @@ class NullResourceFactory:
 
 * **Tarea**: Detalla cómo la fábrica encapsula la creación de `null_resource` y el propósito de sus `triggers`.
 
-#### 3. Prototype
+### 3. Prototype
 
 ```python
 # prototype.py
@@ -102,7 +104,7 @@ class ResourcePrototype:
 
 * **Tarea**: Dibuja un diagrama UML del proceso de clonación profunda y explica cómo el **mutator** permite personalizar cada instancia.
 
-#### 4. Composite
+### 4. Composite
 
 ```python
 # composite.py
@@ -126,7 +128,7 @@ class CompositeModule:
 
 * **Tarea**: Describe cómo `CompositeModule` agrupa múltiples bloques en un solo JSON válido para Terraform.
 
-#### 5. Builder
+### 5. Builder
 
 ```python
 # builder.py
@@ -159,12 +161,11 @@ class InfrastructureBuilder:
 
 > **Entregable fase 1**: Documentocon fragmentos de código destacados, explicación de cada patrón y un diagrama UML simplificado.
 
-
-#### Fase 2: Ejercicios prácticos 
+## Fase 2: Ejercicios prácticos
 
 Extiende el código base en una rama nueva por ejercicio:
 
-#### Ejercicio 2.1: Extensión del Singleton
+### Ejercicio 2.1: Extensión del Singleton
 
 * **Objetivo**: Añadir un método `reset()` que limpie `settings` pero mantenga `created_at`.
 * **Código de partida**:
@@ -175,6 +176,7 @@ Extiende el código base en una rama nueva por ejercicio:
       def reset(self):
           # TODO: implementar
   ```
+
 * **Validación**:
 
   ```python
@@ -186,7 +188,7 @@ Extiende el código base en una rama nueva por ejercicio:
   assert c1.created_at == created
   ```
 
-#### Ejercicio 2.2: Variación de la Factory
+### Ejercicio 2.2: Variación de la Factory
 
 * **Objetivo**: Crear `TimestampedNullResourceFactory` que acepte un `fmt: str`.
 * **Esqueleto**:
@@ -198,9 +200,10 @@ Extiende el código base en una rama nueva por ejercicio:
           ts = datetime.utcnow().strftime(fmt)
           # TODO: usar ts en triggers
   ```
+
 * **Prueba**: Genera recurso con formato `'%Y%m%d'` y aplica `terraform plan`.
 
-#### Ejercicio 2.3: Mutaciones avanzadas con Prototype
+### Ejercicio 2.3: Mutaciones avanzadas con Prototype
 
 * **Objetivo**: Clonar un prototipo y, en el mutator, añadir un bloque `local_file`.
 * **Referencia**:
@@ -215,9 +218,10 @@ Extiende el código base en una rama nueva por ejercicio:
           }
       }
   ```
+
 * **Resultado**: Al `terraform apply`, genera `bienvenida.txt`.
 
-#### Ejercicio 2.4: Submódulos con Composite
+### Ejercicio 2.4: Submódulos con Composite
 
 * **Objetivo**: Modificar `CompositeModule.add()` para soportar submódulos:
 
@@ -230,9 +234,10 @@ Extiende el código base en una rama nueva por ejercicio:
               merged["module"].update(child["module"])
           # ...
   ```
+
 * **Tarea**: Crea dos submódulos "network" y "app" en la misma export y valida con Terraform.
 
-#### Ejercicio 2.5: Builder personalizado
+### Ejercicio 2.5: Builder personalizado
 
 * **Objetivo**: En `InfrastructureBuilder`, implementar `build_group(name: str, size: int)`:
 
@@ -249,18 +254,18 @@ Extiende el código base en una rama nueva por ejercicio:
       self.module.add({"module": {name: group.export()}})
       return self
   ```
+
 * **Validación**: Exportar a JSON y revisar anidamiento `module -> <name> -> resource`.
 
 > **Entregable Fase 2**: Ramas Git con cada ejercicio, código modificado y logs de `terraform plan`/`apply`.
 
+## Fase 3: Desafíos teórico-prácticos
 
-#### Fase 3: Desafíos teórico-prácticos
-
-#### 3.1 Comparativa Factory vs Prototype
+### 3.1 Comparativa Factory vs Prototype
 
 * **Contenido** (\~300 palabras): cuándo elegir cada patrón para IaC, costes de serialización profundas vs creación directa y mantenimiento.
 
-#### 3.2 Patrones avanzados: Adapter (código de referencia)
+### 3.2 Patrones avanzados: Adapter (código de referencia)
 
 * **Implementación**:
 
@@ -281,9 +286,10 @@ Extiende el código base en una rama nueva por ejercicio:
               }
           }
   ```
+
 * **Prueba**: Inserta en builder y exporta un recurso `mock_cloud_bucket`.
 
-#### 3.3 Tests automatizados con pytest
+### 3.3 Tests automatizados con pytest
 
 * **Ejemplos**:
 
@@ -299,12 +305,12 @@ Extiende el código base en una rama nueva por ejercicio:
       assert "foo" not in c2 and "bar" not in c1
   ```
 
-#### 3.4 Escalabilidad de JSON
+### 3.4 Escalabilidad de JSON
 
 * **Tarea**: Mide tamaño de `terraform/main.tf.json` para `build_null_fleet(15)` vs `(150)`.
 * **Discusión**: impacto en CI/CD, posibles estrategias de fragmentación.
 
-#### 3.5 Integración con Terraform Cloud (opcional)
+### 3.5 Integración con Terraform Cloud (opcional)
 
 * **Esquema**: `builder.export_to_cloud(workspace)` usando API HTTP.
 * **Diagrama**: Flujo desde `generate_infra.py` -> `terraform login` -> `apply`.
