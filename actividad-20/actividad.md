@@ -152,18 +152,25 @@ Cuando cambian variables de configuración, Terraform los mapea a **triggers** q
 
 1. **Simulación**
 
-   ```bash
+   ```diff
    cd environments/app2
-   # edita manualmente main.tf.json: cambiar "name":"app2" ->"hacked-app"
+
+   # terraform.tfstate
+    "attributes": {
+      "id": "5631488554631454539",
+          "triggers": {
+   -         "name": "hello-world", # variable generica
+   +         "name": "hacked-app",
+             "network": "lab-net"
+          }
+    }
    ```
 
 2. Ejecuta:
 
-   ```bash
-   terraform plan
-   ```
+   Al no haber una infraestructura real, cambio el valor dentro del archivo `terraform.tfstate` para que al usar el comando `terraform plan` este detecte el cambio e intente volver a su estado anterior.
 
-    Verás un plan que propone **revertir** ese cambio.
+   ![alt](imagenes/tfstate.png)
 
 3. **Aplica**
 
@@ -171,4 +178,18 @@ Cuando cambian variables de configuración, Terraform los mapea a **triggers** q
    terraform apply
    ```
 
-    Y comprueba que vuelve a "app2".
+   Este cambio se verá reflejado en los archivos, volverán al estado definido en `main.tf.json`.
+
+    ![alt](imagenes/apply-tfstate.png)
+
+#### B. Migrando a IaC
+
+  1. Crea en un nuevo directorio `legacy/` un simple `run.sh` + `config.cfg` con parámetros (p.ej. puerto, ruta).
+
+     d
+
+  2. Escribe un script Python que:
+
+     * Lea `config.cfg` y `run.sh`.
+     * Genere **automáticamente** un par `network.tf.json` + `main.tf.json` equivalente.
+     * Verifique con `terraform plan` que el resultado es igual al script legacy.
