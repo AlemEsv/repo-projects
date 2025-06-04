@@ -201,3 +201,30 @@ Cuando cambian variables de configuración, Terraform los mapea a **triggers** q
 Creamos un entorno app-drift-demo con un maint.tf.json. Este archivo nos definió 2 servidores local_file y balanceador que dependía de los IDs de los servidores. Luego modificamos el servidor manualmente y terraform plan detectara el cambio del servidor y la necesidad de actualizar el balanceador debido a la dependencia de IDs.
 
   ![alt](imagenes/1.png)
+
+
+#### Parte 2: CLI Interactiv, Refactorización de generate_envs.py con click
+Modificamos el script generate_envs.py utilizando la biblioteca click. Esto nos permitió definir los argumentos de la línea de comandos como --count y --prefix. Al ejecutar este script con estos argumentos, se generó la cantidad y el tipo de entornos especificados, cada uno con sus archivos main.tf.json y network.tf.json.
+
+
+  ![alt](imagenes/2.png)
+
+#### Parte 3: Validación de Esquema JSON
+Integramos la biblioteca jsonschema en generate_envs.py. Aquí definimos esquemas JSON (MAIN_TF_SCHEMA, NETWORK_TF_SCHEMA) para main.tf.json y network.tf.json. Antes de escribir o copiar estos archivos, su contenido se validaba contra estos esquemas para prevenir errores estructurales.
+
+  ![alt](imagenes/3.png)
+
+#### Parte 4: GitOps Local
+
+Creamos el script watch_module_and_regenerate.py usando watchdog. Este script monitorea el directorio modules/simulated_app/ para detectar cambios. Al ocurrir una modificación, automáticamente ejecuta generate_envs.py para regenerar los entornos con parámetros predefinidos y la opción --force.
+
+  ![alt](imagenes/4.png)
+
+#### Parte 5: Compartición segura de secretos
+
+Creamos un archivo secreto.json fuera del control de versiones con una api_key. Luego se configuro el script manejador_secretos.py para leer esta api_key desde la ruta especificada del secreto.json. Este script demostró la lectura exitosa de la clave, preparándola para un uso seguro en flujos de trabajo.
+
+  ![alt](imagenes/5.png)
+
+
+
