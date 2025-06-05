@@ -84,3 +84,29 @@ La clase ``CompositeModule`` define un objeto de composición que agrupa diccion
 El método ``add`` modifica esta lista para añadir nuevos bloques en forma de diccionarios, mientras que el método ``export`` convierte esta lista en un diccionario que represente un bloque mayor unificado y lo retorna, o bien a un objeto de la misma clase ``CompositeModule`` en una jerarquía superior del árbol de composición, o bien como producto final de la composición de bloques de Terraform.
 
 Resaltamos entonces la naturaleza recursiva del patrón, donde solo definimos lo que tiene que hacer cada nodo con los nodos inferiores para formar todo el árbol.
+
+### 5. Builder
+
+## Fase 2: Ejercicios prácticos
+
+### Ejercicio 2.1: Extensión del Singleton
+
+### Ejercicio 2.2: Variación de la Factory
+
+### Ejercicio 2.3: Mutaciones avanzadas con Prototype
+
+### Ejercicio 2.4: Submódulos con Composite
+
+### Ejercicio 2.5: Builder personalizado
+
+## Fase 3: Desafíos teórico-prácticos
+
+### 3.1 Comparativa Factory vs Prototype
+
+### 3.2 Patrones avanzados: Adapter (código de referencia)
+
+### 3.3 Tests automatizados con pytest
+
+### 3.4 Escalabilidad de JSON
+
+### 3.5 Integración con Terraform Cloud (opcional)
