@@ -70,8 +70,6 @@ La clase `NullResourceFactury` encapsula la creación de recursos `null_resource
 
 Los triggers crean una uuid y un timestap para el recurso `null_resource` para que no puedan ser modificado erroneamente asegurando inmutabilidad.
 
-### 3. Prototype
-
 ### 4. Composite
 
 **Tarea:** Describe cómo CompositeModule agrupa múltiples bloques en un solo JSON válido para Terraform.
