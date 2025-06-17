@@ -1,0 +1,28 @@
+{
+    "resources": [
+        {
+            "type": "local_network",
+            "name": "hello-world-network",
+            "auto_create_subnets": false,
+            "region": "local-region"
+        },
+        {
+            "type": "local_subnet",
+            "name": "hello-world-subnet-0",
+            "network": "hello-world-network",
+            "cidr": "10.0.0.0/21"
+        },
+        {
+            "type": "local_subnet",
+            "name": "hello-world-subnet-1",
+            "network": "hello-world-network",
+            "cidr": "10.0.8.0/21"
+        },
+        {
+            "type": "local_subnet",
+            "name": "hello-world-subnet-2",
+            "network": "hello-world-network",
+            "cidr": "10.0.16.0/21"
+        }
+    ]
+}
