@@ -1,0 +1,61 @@
+{
+  "detalles_apps_simuladas": {
+    "sensitive": true,
+    "type": [
+      "object",
+      {
+        "app1": [
+          "object",
+          {
+            "config_path": "string",
+            "install_path": "string",
+            "metadata_id": "string"
+          }
+        ],
+        "app2": [
+          "object",
+          {
+            "config_path": "string",
+            "install_path": "string",
+            "metadata_id": "string"
+          }
+        ],
+        "database_connector": [
+          "object",
+          {
+            "config_path": "string",
+            "install_path": "string",
+            "metadata_id": "string"
+          }
+        ]
+      }
+    ],
+    "value": {
+      "app1": {
+        "config_path": "/home/glusin/actividad/Proyecto_iac_local/generated_environment/services/app1_v1.0.2/config.json",
+        "install_path": "/home/glusin/actividad/Proyecto_iac_local/generated_environment/services/app1_v1.0.2",
+        "metadata_id": "0412d6d2-3c46-461c-ad7d-9dfdd0ef4c64"
+      },
+      "app2": {
+        "config_path": "/home/glusin/actividad/Proyecto_iac_local/generated_environment/services/app2_v0.5.0/config.json",
+        "install_path": "/home/glusin/actividad/Proyecto_iac_local/generated_environment/services/app2_v0.5.0",
+        "metadata_id": "3a9faadd-945a-413b-a537-f191f77425ad"
+      },
+      "database_connector": {
+        "config_path": "/home/glusin/actividad/Proyecto_iac_local/generated_environment/services/database_connector_v1.0.0/config.json",
+        "install_path": "/home/glusin/actividad/Proyecto_iac_local/generated_environment/services/database_connector_v1.0.0",
+        "metadata_id": "13b9ca87-fb5c-46e1-91b6-beae73fc8bdf"
+      }
+    }
+  },
+  "id_entorno": {
+    "sensitive": false,
+    "type": "string",
+    "value": "38182f04d750351c"
+  },
+  "ruta_bienvenida": {
+    "sensitive": false,
+    "type": "string",
+    "value": "/home/glusin/actividad/Proyecto_iac_local/generated_environment/bienvenida.txt"
+  }
+}
