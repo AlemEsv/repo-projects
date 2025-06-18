@@ -1,6 +1,6 @@
 ### Actividad: Pruebas en IaC
 
-El objetivo de esta actividad es profundizar, de manera local y exclusivamente con Terraform, en todos los tipos de pruebas vistos (unitarias, de contrato, integración, somoke, regresión y extremo a extremo).
+El objetivo de esta actividad es profundizar, de manera local y exclusivamente con Terraform, en todos los tipos de pruebas vistos (unitarias, de contrato, integración, smoke, regresión y extremo a extremo).
 
 > Revisa la estructura del repositorio de referencia: [Pruebas en IaC](https://github.com/kapumota/DS/tree/main/2025-1/Pruebas_iac).
 
@@ -9,6 +9,35 @@ El objetivo de esta actividad es profundizar, de manera local y exclusivamente c
 1. **Diseño de módulos declarativos**
 
    * Imagina que has creado tres módulos Terraform: `network`, `compute` y `storage`. Describe cómo diseñarías la interfaz (variables y outputs) de cada uno para que puedan probarse de forma aislada.
+
+    ```yaml
+      modules
+      ├── network
+      │   ├── variables.tf
+      │   │   ├── name
+      │   │   └── cidr_block
+      │   └── outputs.tf
+      │       ├── network_id  # red asignada
+      │       ├── subnet_ids  # lista de subnets
+      │       └── cidr_block  # 10.0.0.0/24
+      ├── compute
+      │   ├── variables.tf
+      │   │   ├── instance_type
+      │   │   ├── network_id  # red asignada
+      │   │   ├── subnet_id   # subnet especifica
+      │   │   └── cidr_block  # 10.0.0.0/24
+      │   └── outputs.tf
+      │       ├── instance_id # instancia
+      │       └── ip_number   # ip asignada
+      └── storage
+          ├── variables.tf
+          │   ├── object_type
+          │   └── object_size
+          └── outputs.tf
+              ├── instance_id # id del objeto
+              └── object_info # información general de un objeto guardado
+    ```
+
    * ¿Qué convenios de naming y estructura de outputs pactarías para garantizar, a nivel de contrato, que diferentes equipos puedan reutilizar tus módulos sin integrarlos aún?
 
 2. **Caso límite sin recursos externos**
@@ -23,85 +52,85 @@ El objetivo de esta actividad es profundizar, de manera local y exclusivamente c
 
 #### Ejercicio 2: "Pruebas de integración" entre módulos
 
-4. **Secuenciación de dependencias**
+1. **Secuenciación de dependencias**
 
    * Describe cómo encadenarías (sin código) la ejecución de los módulos `network` -> `compute` -> `storage` para un integration test local.
    * ¿Cómo garantizarías que los outputs del módulo previo (e.g., IDs de subredes) se consuman correctamente como inputs del siguiente, sin recurrir a scripts externos que rompan la inmutabilidad de Terraform?
 
-5. **Entornos simulados con contenedores**
+2. **Entornos simulados con contenedores**
 
    * Propón un diseño de prueba que incluya, por ejemplo, un contenedor Docker simulando un servicio de base de datos; explica cómo levantarlo, conectarlo a tu Terraform local y validar que las instancias creadas puedan comunicarse.
    * ¿Qué retos de aislamiento y limpieza de estado deberás afrontar, y cómo los mitigarías teóricamente?
 
-6. **Pruebas de interacción gradual**
+3. **Pruebas de interacción gradual**
 
    * Define dos niveles de depth en tus integration tests: uno que solo valide la legibilidad de los outputs compartidos y otro que verifique flujos reales de datos (por ejemplo, escritura en un bucket simulado).
    * Explica en qué situaciones cada nivel resulta más apropiado y cómo evitar solapamientos o redundancias entre ellos.
 
 #### Ejercicio 3: "Pruebas de humo" y "Pruebas de regresión"
 
-7. **Pruebas de humo locales ultrarrápidos**
+1. **Pruebas de humo locales ultrarrápidos**
 
    * Imagina que tienes tres módulos en tu proyecto. Describe qué tres comandos básicos de Terraform ejecutarías en un smoke test unificado para "pasar la primera barrera" en menos de 30 segundos.
    * Justifica por qué cada comando (e.g., `fmt`, `validate`, `plan -refresh=false`) aporta valor inmediato y evita falsos positivos en fases más profundas.
 
-8. **Planes "golden" para regresión**
+2. **Planes "golden" para regresión**
 
    * Diseña un procedimiento teórico para generar y versionar un "plan dorado" de Terraform (`plan-base.json`) que sirva de referencia.
    * ¿Cómo detectarías diferencias semánticas (cambios involuntarios en recursos) sin que pequeñas variaciones de orden o metadatos ("timestamp", "UUID") disparen falsos fallos?
 
-9. **Actualización consciente de regresión**
+3. **Actualización consciente de regresión**
 
    * Propón una política de equipo que regule cuándo se actualizan los planes dorados. Por ejemplo: "solo al liberar una versión mayor" o "previa revisión de al menos dos compañeros".
    * ¿Qué criterios objetivos definirías para aprobar o rechazar la actualización de un plan dorado?
 
 #### Ejercicio 4: "Pruebas extremo-extremo (E2E)" y su rol en arquitecturas modernas
 
-10. **Escenarios E2E sin IaC real**
+1. **Escenarios E2E sin IaC real**
 
     * Describe un test extremo a extremo que, tras aplicar localmente todos los módulos, verifique con peticiones HTTP a un servicio Flask en Docker la correcta configuración de red, subred y balanceo.
     * Especifica las métricas que examinarías (status codes, latencia, payload) y cómo integrarías esas comprobaciones en la suite sin emplear CI externo.
 
-11. **E2E en microservicios y Kubernetes local**
+2. **E2E en microservicios y Kubernetes local**
 
     * Plantea cómo usar un cluster local de Kubernetes (e.g., `kind`) para probar la plantilla de Helm o manifiestos YML generados por Terraform.
     * ¿Qué probes de readiness/liveness y tests de conectividad entre pods diseñarías para validar la infraestructura y el routing interno?
 
-12. **Simulación de fallos en E2E**
+3. **Simulación de fallos en E2E**
 
     * Explica cómo introducir de forma controlada un fallo (por ejemplo, caída de un nodo o error en un contenedor) durante la prueba E2E y validar que tu IaC reequilibra o recrea los recursos.
     * ¿Qué mecanismos de Terraform y de Kubernetes (taints/tolerations, replicasets, autoscaling) involucrarías y cómo los comprobarías?
 
 #### Ejercicio 5: Pirámide de pruebas y selección de tests
 
-13. **Mapeo de pruebas al pipeline local**
+1. **Mapeo de pruebas al pipeline local**
 
     * Define una secuencia de ejecución (sin herramientas CI) que respete la pirámide: primero unit tests, luego smoke/contract, después integration y, por último, E2E.
     * ¿Cómo medirías el tiempo acumulado de cada fase y usarías esos datos para optimizar tu suite?
 
-14. **Estrategia de "test slices"**
+2. **Estrategia de "test slices"**
 
     * Propón una estrategia para agrupar tests temáticos (por ejemplo, "red", "cómputo", "almacenamiento") y ejecutarlos de forma independiente cuando sólo cambie un módulo.
     * ¿Qué criterios usarías para determinar qué slice de tests disparar según el scope de cambios en tu código Terraform?
 
-15. **Coste vs. riesgo de tests**
+3. **Coste vs. riesgo de tests**
 
     * Reflexiona sobre cómo balancear la proporción de unit tests frente a E2E tests en función del riesgo de rotura en producción.
     * Plantea una fórmula o heurística que estime el "retorno de inversión" de un nuevo test frente al esfuerzo de mantenimiento.
 
 #### Ejercicio 6: Estrategias de mantenimiento y evolución de la suite
 
-16. **Deuda técnica en pruebas IaC**
+1. **Deuda técnica en pruebas IaC**
 
     * Identifica qué señales indicarían que tu suite de pruebas está acumulando deuda técnica (por ejemplo, tests frágiles, largos tiempos de ejecución, registros excesivos).
     * Propón un plan de refactorización teórico para abordar esa deuda, priorizando módulos críticos y tests más costosos.
 
-17. **Documentación viva de tests**
+2. **Documentación viva de tests**
 
     * Sugiere un formato de documentación (markdown, diagramas, tablas) que mantenga sincronizados los contratos, los tests de integración y las expectativas del pipeline.
     * ¿Cómo alinearías esa documentación con las revisiones de código para garantizar que siempre refleje el estado real de tu suite?
 
-18. **Automatización local de la suite**
+3. **Automatización local de la suite**
 
     * Aunque no uses GitHub Actions, describe cómo escribirías un único script maestro (`run_all.sh`) que:
 
