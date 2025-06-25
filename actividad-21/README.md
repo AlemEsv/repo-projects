@@ -145,6 +145,31 @@ Extiende el código base en una rama nueva por ejercicio:
 
 ### Ejercicio 2.1: Extensión del Singleton
 
+`Reset` permite limpiar la configuración sin perder información sobre la instancia o su creación
+
+  ```python
+    class ConfigSingleton(metaclass=SingletonMeta):
+    # ...
+    def reset(self) -> None:
+        """
+        Limpia las configuraciones guardadas en settings.
+        """
+        self.settings.clear()
+  ```
+
+Validación:
+
+  ```python
+    c1 = ConfigSingleton("dev")
+    created = c1.created_at
+    c1.settings["x"] = 1
+    c1.reset()
+    assert c1.settings == {}
+    assert c1.created_at == created
+  ```
+
+![alt text](imgs/image1.png)
+
 ### Ejercicio 2.2: Variación de la Factory
 
 ### Ejercicio 2.3: Mutaciones avanzadas con Prototype
