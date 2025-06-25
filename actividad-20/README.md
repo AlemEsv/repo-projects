@@ -210,6 +210,7 @@ Modificamos el script generate_envs.py utilizando la biblioteca click. Esto nos 
   ![alt](imagenes/2.png)
 
 #### Parte 3: Validación de Esquema JSON
+
 Integramos la biblioteca jsonschema en generate_envs.py. Aquí definimos esquemas JSON (MAIN_TF_SCHEMA, NETWORK_TF_SCHEMA) para main.tf.json y network.tf.json. Antes de escribir o copiar estos archivos, su contenido se validaba contra estos esquemas para prevenir errores estructurales.
 
   ![alt](imagenes/3.png)
@@ -225,6 +226,3 @@ Creamos el script watch_module_and_regenerate.py usando watchdog. Este script mo
 Creamos un archivo secreto.json fuera del control de versiones con una api_key. Luego se configuro el script manejador_secretos.py para leer esta api_key desde la ruta especificada del secreto.json. Este script demostró la lectura exitosa de la clave, preparándola para un uso seguro en flujos de trabajo.
 
   ![alt](imagenes/5.png)
-
-
-

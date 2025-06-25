@@ -44,7 +44,7 @@ Esto fue suficiente para generar y configurar los recursos definidos en el proye
 
 Esto se hace antes de ``terraform apply``, pero si inspeccionamos el plan generado haciendo ``terraform plan -no-color > plan.txt`` (lo guardamos en un documento de texto porque es una salida extensa) podremos entender qué recursos son creados. Vamos a filtrar solo las líneas que contienen ``+ resource``, que son en total 12:
 
-```
+```bash
 + resource "local_file" "bienvenida"               # 1
 + resource "null_resource" "check_all_healths"     # 2
 + resource "null_resource" "validate_all_configs"  # 3
@@ -72,11 +72,12 @@ Además, vemos los siguientes outputs:
 - ```bash
     terraform output id_entorno
     ```
+
     ```txt
     "f174d38f7fc3c19b"
     ```
 
--   ```bash
+- ```bash
     terraform output ruta_bienvenida
     ```
 
@@ -84,7 +85,7 @@ Además, vemos los siguientes outputs:
     "/mnt/d/Repos/CC3S2_Software_Development_25_1/Proyecto_iac_local/generated_environment/bienvenida.txt"
     ```
 
--   ```bash
+- ```bash
     terraform output detalles_apps_simuladas
     ```
 
@@ -107,7 +108,7 @@ Además, vemos los siguientes outputs:
 
 También podemos destruir todos los recursos:
 
--   ```bash
+- ```bash
     terraform destroy
     ```
 
@@ -265,3 +266,6 @@ Esto no es un problema grave, pero es confuso e innecesario. Lo mejor es evitar 
     ...
 }
 ```
+
+## Ejercicio 2
+

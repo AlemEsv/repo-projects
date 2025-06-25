@@ -220,3 +220,5 @@ Esta actividad está dividida en **tres bloques**: conceptualización, empaqueta
 * Documento en Markdown o PDF con todas las respuestas y fragmentos de YAML/pseudocódigo.
 * Scripts de ejemplo (`setup-dev.sh`, `test-stub.sh`).
 * Comparativas y reflexiones en cada ejercicio teórico.
+
+docker-compose: para poder orquestar varios dockerfiles

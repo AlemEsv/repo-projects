@@ -5,6 +5,35 @@
 1. **Diseño de módulos declarativos**
 
 - _Imagina que has creado tres módulos Terraform: network, compute y storage. Describe cómo diseñarías la interfaz (variables y outputs) de cada uno para que puedan probarse de forma aislada._
+
+    ```yaml
+      modules
+      ├── network
+      │   ├── variables.tf
+      │   │   ├── name
+      │   │   └── cidr_block
+      │   └── outputs.tf
+      │       ├── network_id  # red asignada
+      │       ├── subnet_ids  # lista de subnets
+      │       └── cidr_block  # 10.0.0.0/24
+      ├── compute
+      │   ├── variables.tf
+      │   │   ├── instance_type
+      │   │   ├── network_id  # red asignada
+      │   │   ├── subnet_id   # subnet especifica
+      │   │   └── cidr_block  # 10.0.0.0/24
+      │   └── outputs.tf
+      │       ├── instance_id # instancia
+      │       └── ip_number   # ip asignada
+      └── storage
+          ├── variables.tf
+          │   ├── object_type
+          │   └── object_size
+          └── outputs.tf
+              ├── instance_id # id del objeto
+              └── object_info # información general de un objeto guardado
+    ```
+
 - _¿Qué convenios de naming y estructura de outputs pactarías para garantizar, a nivel de contrato, que diferentes equipos puedan reutilizar tus módulos sin integrarlos aún?_
 
 El contrato debe verificar que las salidas de un módulo sean iguales a las entradas correspondientes de otro módulo que depende de este, y también debe verificar el tipo y cierto formato especifico para la variable en cuestión.

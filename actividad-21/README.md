@@ -72,6 +72,56 @@ Los triggers crean una uuid y un timestap para el recurso `null_resource` para q
 
 ### 3. Prototype
 
+```python
+import copy
+from typing import Dict, Any
+
+class ResourcePrototype:
+    # constructor
+    def __init__(self, resource_dict: Dict[str, Any]) -> None:
+        self._resource_dict = resource_dict
+
+    def clone(self, mutator=lambda d: d) -> "ResourcePrototype":
+        new_dict = copy.deepcopy(self._resource_dict)
+        mutator(new_dict)
+        return ResourcePrototype(new_dict)
+
+    @property
+    def data(self) -> Dict[str, Any]:
+        return self._resource_dict
+```
+
+```txt
++---------------------+
+|  ResourcePrototype  |
++---------------------+
+| - _resource_dict    |
++---------------------+
+| + __init__()        |
+| + clone(mutator)    |
+| + data              |
++---------------------+
+         |
+         | clone(mutator)
+         v
++---------------------+
+|  copy.deepcopy()    |
++---------------------+
+         |
+         v
++---------------------+
+|   mutator(new_dict) |
++---------------------+
+         |
+         v
++---------------------+
+|  ResourcePrototype  |
+|   (nuevo objeto)    |
++---------------------+
+```
+
+`Mutator` es una función que recibe el diccionario clonado, hace una copia profunda para que los cambios en los clones no afecten el objeto original. Así permite hacer personalizaciones de manera directa y que no repercutan en la forma que se instancia el diccionario original
+
 ### 4. Composite
 
 **Tarea:** Describe cómo CompositeModule agrupa múltiples bloques en un solo JSON válido para Terraform.
@@ -90,6 +140,8 @@ Resaltamos entonces la naturaleza recursiva del patrón, donde solo definimos lo
 ### 5. Builder
 
 ## Fase 2: Ejercicios prácticos
+
+Extiende el código base en una rama nueva por ejercicio:
 
 ### Ejercicio 2.1: Extensión del Singleton
 

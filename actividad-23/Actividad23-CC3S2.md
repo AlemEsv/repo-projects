@@ -1,42 +1,14 @@
-### Actividad: Pruebas en IaC
+# Actividad: Pruebas en IaC
 
 El objetivo de esta actividad es profundizar, de manera local y exclusivamente con Terraform, en todos los tipos de pruebas vistos (unitarias, de contrato, integración, smoke, regresión y extremo a extremo).
 
 > Revisa la estructura del repositorio de referencia: [Pruebas en IaC](https://github.com/kapumota/DS/tree/main/2025-1/Pruebas_iac).
 
-#### Ejercicio 1: Estrategia de "pruebas unitarias" y "pruebas de contrato" combinadas
+## Ejercicio 1: Estrategia de "pruebas unitarias" y "pruebas de contrato" combinadas
 
 1. **Diseño de módulos declarativos**
 
    * Imagina que has creado tres módulos Terraform: `network`, `compute` y `storage`. Describe cómo diseñarías la interfaz (variables y outputs) de cada uno para que puedan probarse de forma aislada.
-
-    ```yaml
-      modules
-      ├── network
-      │   ├── variables.tf
-      │   │   ├── name
-      │   │   └── cidr_block
-      │   └── outputs.tf
-      │       ├── network_id  # red asignada
-      │       ├── subnet_ids  # lista de subnets
-      │       └── cidr_block  # 10.0.0.0/24
-      ├── compute
-      │   ├── variables.tf
-      │   │   ├── instance_type
-      │   │   ├── network_id  # red asignada
-      │   │   ├── subnet_id   # subnet especifica
-      │   │   └── cidr_block  # 10.0.0.0/24
-      │   └── outputs.tf
-      │       ├── instance_id # instancia
-      │       └── ip_number   # ip asignada
-      └── storage
-          ├── variables.tf
-          │   ├── object_type
-          │   └── object_size
-          └── outputs.tf
-              ├── instance_id # id del objeto
-              └── object_info # información general de un objeto guardado
-    ```
 
    * ¿Qué convenios de naming y estructura de outputs pactarías para garantizar, a nivel de contrato, que diferentes equipos puedan reutilizar tus módulos sin integrarlos aún?
 
@@ -50,7 +22,7 @@ El objetivo de esta actividad es profundizar, de manera local y exclusivamente c
    * Plantea un método para cuantificar qué porcentaje de tu contrato (outputs documentados) está siendo validado por los contract tests.
    * ¿Cómo balancearías la exhaustividad (todos los campos) con el costo de mantenimiento (cambios frecuentes en outputs)?
 
-#### Ejercicio 2: "Pruebas de integración" entre módulos
+## Ejercicio 2: "Pruebas de integración" entre módulos
 
 1. **Secuenciación de dependencias**
 
@@ -67,7 +39,7 @@ El objetivo de esta actividad es profundizar, de manera local y exclusivamente c
    * Define dos niveles de depth en tus integration tests: uno que solo valide la legibilidad de los outputs compartidos y otro que verifique flujos reales de datos (por ejemplo, escritura en un bucket simulado).
    * Explica en qué situaciones cada nivel resulta más apropiado y cómo evitar solapamientos o redundancias entre ellos.
 
-#### Ejercicio 3: "Pruebas de humo" y "Pruebas de regresión"
+## Ejercicio 3: "Pruebas de humo" y "Pruebas de regresión"
 
 1. **Pruebas de humo locales ultrarrápidos**
 
@@ -84,7 +56,7 @@ El objetivo de esta actividad es profundizar, de manera local y exclusivamente c
    * Propón una política de equipo que regule cuándo se actualizan los planes dorados. Por ejemplo: "solo al liberar una versión mayor" o "previa revisión de al menos dos compañeros".
    * ¿Qué criterios objetivos definirías para aprobar o rechazar la actualización de un plan dorado?
 
-#### Ejercicio 4: "Pruebas extremo-extremo (E2E)" y su rol en arquitecturas modernas
+## Ejercicio 4: "Pruebas extremo-extremo (E2E)" y su rol en arquitecturas modernas
 
 1. **Escenarios E2E sin IaC real**
 
@@ -101,7 +73,7 @@ El objetivo de esta actividad es profundizar, de manera local y exclusivamente c
     * Explica cómo introducir de forma controlada un fallo (por ejemplo, caída de un nodo o error en un contenedor) durante la prueba E2E y validar que tu IaC reequilibra o recrea los recursos.
     * ¿Qué mecanismos de Terraform y de Kubernetes (taints/tolerations, replicasets, autoscaling) involucrarías y cómo los comprobarías?
 
-#### Ejercicio 5: Pirámide de pruebas y selección de tests
+## Ejercicio 5: Pirámide de pruebas y selección de tests
 
 1. **Mapeo de pruebas al pipeline local**
 
@@ -118,7 +90,7 @@ El objetivo de esta actividad es profundizar, de manera local y exclusivamente c
     * Reflexiona sobre cómo balancear la proporción de unit tests frente a E2E tests en función del riesgo de rotura en producción.
     * Plantea una fórmula o heurística que estime el "retorno de inversión" de un nuevo test frente al esfuerzo de mantenimiento.
 
-#### Ejercicio 6: Estrategias de mantenimiento y evolución de la suite
+## Ejercicio 6: Estrategias de mantenimiento y evolución de la suite
 
 1. **Deuda técnica en pruebas IaC**
 
@@ -139,7 +111,7 @@ El objetivo de esta actividad es profundizar, de manera local y exclusivamente c
       3. Resuma, al final, cuántos tests pasaron y cuántos fallaron en cada categoría.
     * Explica cómo desplegarías notificaciones locales (por correo o Slack) si algún grupo de tests falla, sin salir de tu máquina.
 
-#### Ejercicio 7: Ampliación de módulos y pruebas unitarias "en caliente"
+## Ejercicio 7: Ampliación de módulos y pruebas unitarias "en caliente"
 
 **Objetivo:** Añadir nuevos recursos simulados (por ejemplo, un módulo `firewall` y un módulo `dns`) y escribir unit tests que verifiquen su lógica sin desplegar nada.
 
@@ -152,7 +124,7 @@ El objetivo de esta actividad es profundizar, de manera local y exclusivamente c
 
 > **Desafío extra:** Diseña tus unit tests de modo que, usando únicamente `terraform console` y `terraform output -json`, logres comprobar la lógica de validación y mapeo sin invocar ningún plan o apply.
 
-#### Ejercicio 8: Contratos dinámicos y testing de outputs
+## Ejercicio 8: Contratos dinámicos y testing de outputs
 
 **Objetivo:** Asegurar la interoperabilidad entre `network`, `compute`, `firewall` y `dns` mediante contract tests basados en JSON Schema, generados y versionados localmente.
 
@@ -163,7 +135,7 @@ El objetivo de esta actividad es profundizar, de manera local y exclusivamente c
   * Mapea cómo versionar esos esquemas cada vez que amplíes la interfaz de un módulo.
   * Diseña un mecanismo para informar de manera legible y agregada, en consola, de los fallos de contrato en uno o varios módulos a la vez.
 
-#### Ejercicio 9: Integración encadenada con entornos simulados
+## Ejercicio 9: Integración encadenada con entornos simulados
 
 **Objetivo:** Construir un entorno completo donde `network` -> `firewall` -> `compute` -> `dns` funcionen en colaboración, usando provisioners y contenedores Docker locales como dependencias.
 
@@ -176,7 +148,7 @@ El objetivo de esta actividad es profundizar, de manera local y exclusivamente c
 
 > **Desafío extra:** Diseña un segundo nivel de integración donde, tras aplicar el primer flujo, modifiques la configuración de `firewall` (por ejemplo, añadiendo nuevos bloques CIDR) y vuelvas a planificar/aplicar sin destruir todo; comprueba que sólo se recreen los recursos afectados.
 
-#### Ejercicio 10: Pruebas de humo híbridos con Terraform
+## Ejercicio 10: Pruebas de humo híbridos con Terraform
 
 **Objetivo:** Crear un único test de humo que valide de forma relámpago la integridad de todos los módulos, incluyendo tus añadidos sin aplicar nada.
 
@@ -189,7 +161,7 @@ El objetivo de esta actividad es profundizar, de manera local y exclusivamente c
 
 > **Punto de reto:** Ajusta los timeouts y paralelismos de tu script para que, incluso con seis módulos diferentes, todo termine antes de 30 s, usando directorios temporales para aislar cada invocación.
 
-#### Ejercicio 11: Pruebas de integración con "plan dorado" inteligentes
+## Ejercicio 11: Pruebas de integración con "plan dorado" inteligentes
 
 **Objetivo:** Mantener planes de referencia para detectar cambios involuntarios sin disparar falsos positivos por metadatos.
 
@@ -204,7 +176,7 @@ El objetivo de esta actividad es profundizar, de manera local y exclusivamente c
   * Define cuándo y cómo se actualizarán tus planes dorados (p.ej. tras cada versión mayor de un módulo).
   * Establece un formato de commit y changelog que obligue a describir el motivo de cada actualización de plan.
 
-#### Ejercicio 12: Flujo E2E local con microservicios simulados
+## Ejercicio 12: Flujo E2E local con microservicios simulados
 
 **Objetivo:** Montar un escenario extremo a extremo que imite un despliegue real de varios microservicios y valide su interacción vía HTTP.
 
