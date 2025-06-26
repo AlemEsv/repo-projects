@@ -88,3 +88,17 @@ class InfrastructureBuilder:
             json.dump(data, f, indent=4)
 
         print(f"[Builder] Terraform JSON escrito en: {path}")
+
+    def build_group(self, name: str, size: int):
+        base = NullResourceFactory.create(name)
+        proto = ResourcePrototype(base)
+        group = CompositeModule()
+        for i in range(size):
+            def make_mut(idx):
+                def mut(block):
+                    res = block["resource"]["null_resource"].pop(name)
+                    block["resource"]["null_resource"][f"{name}_{idx}"] = res
+                return mut
+            group.add(proto.clone(make_mut(i)))
+        self.module.add({"module": {name: group.export()}})
+        return self

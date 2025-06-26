@@ -1,5 +1,21 @@
 # Actividad 21
 
+## Índice
+
+- [Fase 1: Exploración y análisis](#fase-1-exploración-y-análisis)
+  - [1. Singleton](#1-singleton)
+  - [2. Factory](#2-factory)
+  - [3. Prototype](#3-prototype)
+  - [4. Composite](#4-composite)
+  - [5. Builder](#5-builder)
+- [Fase 2: Ejercicios prácticos](#fase-2-ejercicios-prácticos)
+  - [Ejercicio 2.1: Extensión del Singleton](#ejercicio-21-extensión-del-singleton)
+  - [Ejercicio 2.2: Variación de la Factory](#ejercicio-22-variación-de-la-factory)
+  - [Ejercicio 2.3: Mutaciones avanzadas con Prototype](#ejercicio-23-mutaciones-avanzadas-con-prototype)
+  - [Ejercicio 2.4: Submódulos con Composite](#ejercicio-24-submódulos-con-composite)
+  - [Ejercicio 2.5: Builder personalizado](#ejercicio-25-builder-personalizado)
+- [Fase 3: Desafíos teórico-prácticos](#fase-3-desafíos-teórico-prácticos)
+
 ## Fase 1: Exploración y análisis
 
 ### 1. Singleton
@@ -66,7 +82,7 @@ La clase `NullResourceFactury` encapsula la creación de recursos `null_resource
 
 útil porque la creación del recurso ya no dependerá de ningún estado interno del objeto, sino de los argumentos que recibe.
 
-* *triggers*
+- *triggers*
 
 Los triggers crean una uuid y un timestap para el recurso `null_resource` para que no puedan ser modificado erroneamente asegurando inmutabilidad.
 
@@ -298,3 +314,66 @@ El método **export** combina todos los recursos y submódulos agregados al obje
 ```
 
 ### Ejercicio 2.5: Builder personalizado
+
+```python
+def build_group(self, name: str, size: int):
+    base = NullResourceFactory.create(name)
+    proto = ResourcePrototype(base)
+    group = CompositeModule()
+    for i in range(size):
+        def make_mut(idx):
+            def mut(block):
+                res = block["resource"]["null_resource"].pop(name)
+                block["resource"]["null_resource"[f"{name}_{idx}"] = res
+            return mut
+        group.add(proto.clone(make_mut(i)))
+    self.module.add({"module": {name: group.expor()}})
+    return self
+```
+
+Validación:
+
+El test comprueba que el método `build_group` de `InfrastructureBuilder` genera correctamente la estructura anidada esperada en el archivo JSON exportado.
+
+```python
+# ...
+def test_build_group_export_structure():
+    builder = InfrastructureBuilder("dev")
+    builder.build_group("mygroup", 2)
+    with tempfile.TemporaryDirectory() as tmpdir:
+        path = os.path.join(tmpdir, "main.tf.json")
+        builder.export(path)
+        with open(path, "r") as f:
+            data = json.load(f)
+        # Validar estructura anidada
+        assert "module" in data
+        assert "mygroup" in data["module"]
+        assert "resource" in data["module"]["mygroup"]
+        # Debe haber dos recursos null_resource
+        resources = data["module"]["mygroup"]["resource"]
+        assert any("null_resource" in r for r in resources)
+```
+
+- Se crea un **builder** y se le pide que construya un grupo llamado "mygroup" con 2 recursos. Luego,se exporta el resultado a un archivo JSON temporal.
+- Se lee el archivo generado y se carga como diccionario, y se valida la estructura anidada.
+
+## Fase 3: Desafíos teórico-prácticos
+
+### 3.1 Comparativa Factory vs Prototype
+
+Se usa **Factory** cuando los recursos son homogéneos, la lógica de creación es simple y centralizada, en este patrón no necesitas tener una personalización tan profunda, solo elementos básicos.
+En el caso de **Prototype** se usa si se necesita clonar recursos base que vayas a personalizar uno por uno (independiente uno del otro), especialmente si las mutaciones son profundas ovariadas.
+
+- Coste de serialización profunda (Prototype):
+
+Prototype usa copias profundas, lo que implica mayor consumo de memoria y CPU, especialmente con estructuras grandes.
+
+- Coste de creación directa (Factory):
+
+Factory crea objetos directamente, sin copias profundas, por lo que es más eficiente en recursos, al buscar una personalización más simple, no consume tantos recursos.
+
+- Mantenimiento:
+
+Como se dijo anteriormente, factory sería más fácil de mantener debido a la creación de recursos simples, Prototype puede complicar el mantenimiento si las mutaciones son muchas o muy variadas.
+
+## 3.2 Patrones avanzados: Adapter
