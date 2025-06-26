@@ -172,6 +172,62 @@ Validación:
 
 ### Ejercicio 2.2: Variación de la Factory
 
+La clase `TimestampedNullResourceFactory` hereda de `NullResourceFactory` y extiende su funcionalidad para permitir que el recurso generado incluya un **timestamp**  con un formato personalizado.
+
+```python
+class TimestampedNullResourceFactory(NullResourceFactory):
+    """
+    Fábrica que permite especificar el formato del timestamp para el trigger.
+    """
+
+    @staticmethod
+    def create(name: str, triggers: Dict[str, Any] | None = None, fmt: str = "%Y-%m-%dT%H:%M:%S") -> Dict[str, Any]:
+        """
+        Crea un bloque de recurso Terraform tipo `null_resource` con triggers personalizados y timestamp formateado.
+
+        Args:
+            name: Nombre del recurso dentro del bloque.
+            triggers: Diccionario de valores personalizados que activan recreación del recurso.
+            fmt: Formato de fecha y hora para el trigger timestamp.
+
+        Returns:
+            Diccionario compatible con la estructura JSON de Terraform para null_resource.
+        """
+        triggers = triggers or {}
+
+        # Agrega un trigger por defecto: UUID aleatorio para asegurar unicidad
+        triggers.setdefault("factory_uuid", str(uuid.uuid4()))
+
+        # Agrega un trigger con timestamp actual en el formato especificado
+        triggers.setdefault("timestamp", datetime.utcnow().strftime(fmt))
+
+        # Retorna el recurso estructurado como se espera en archivos .tf.json
+        return {
+            "resource": [{
+                "null_resource": [{
+                    name: [{
+                        "triggers": triggers
+                    }]
+                }]
+            }]
+        }
+```
+
+Validación:
+
+```python
+from local_iac_patterns.iac_patterns.factory import TimestampedNullResourceFactory
+
+def test_timestamped_factor_simple():
+    resource = TimestampedNullResourceFactory.create("test", fmt="%Y%m%d")
+    assert "resource" in resource
+    triggers = resource["resource"][0]["null_resource"][0]["test"][0]["triggers"]
+    assert "timestamp" in triggers
+    assert len(triggers["timestamp"]) == 8  # 'YYYYMMDD' tiene 8 caracteres
+```
+
+![alt](imgs/image2.png)
+
 ### Ejercicio 2.3: Mutaciones avanzadas con Prototype
 
 ### Ejercicio 2.4: Submódulos con Composite
