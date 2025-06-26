@@ -1,0 +1,17 @@
+[2025-06-23T19:52:11.646+0000] {local_task_job_runner.py:120} INFO - ::group::Pre task execution logs
+[2025-06-23T19:52:11.731+0000] {taskinstance.py:2076} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: etl_pipeline.transform manual__2025-06-23T19:51:56.244440+00:00 [queued]>
+[2025-06-23T19:52:11.739+0000] {taskinstance.py:2076} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: etl_pipeline.transform manual__2025-06-23T19:51:56.244440+00:00 [queued]>
+[2025-06-23T19:52:11.740+0000] {taskinstance.py:2306} INFO - Starting attempt 1 of 2
+[2025-06-23T19:52:11.750+0000] {taskinstance.py:2330} INFO - Executing <Task(_PythonDecoratedOperator): transform> on 2025-06-23 19:51:56.244440+00:00
+[2025-06-23T19:52:11.755+0000] {standard_task_runner.py:63} INFO - Started process 286 to run task
+[2025-06-23T19:52:11.758+0000] {standard_task_runner.py:90} INFO - Running: ['airflow', 'tasks', 'run', 'etl_pipeline', 'transform', 'manual__2025-06-23T19:51:56.244440+00:00', '--job-id', '16', '--raw', '--subdir', 'DAGS_FOLDER/etl_dag.py', '--cfg-path', '/tmp/tmp49inefrv']
+[2025-06-23T19:52:11.759+0000] {standard_task_runner.py:91} INFO - Job 16: Subtask transform
+[2025-06-23T19:52:11.801+0000] {task_command.py:426} INFO - Running <TaskInstance: etl_pipeline.transform manual__2025-06-23T19:51:56.244440+00:00 [running]> on host 2a002a122601
+[2025-06-23T19:52:11.882+0000] {taskinstance.py:2648} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='airflow' AIRFLOW_CTX_DAG_ID='etl_pipeline' AIRFLOW_CTX_TASK_ID='transform' AIRFLOW_CTX_EXECUTION_DATE='2025-06-23T19:51:56.244440+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2025-06-23T19:51:56.244440+00:00'
+[2025-06-23T19:52:11.883+0000] {taskinstance.py:430} INFO - ::endgroup::
+[2025-06-23T19:52:11.890+0000] {python.py:237} INFO - Done. Returned value was: [{'name': 'A', 'value': 1, 'value_squared': 1}, {'name': 'B', 'value': 2, 'value_squared': 4}, {'name': 'C', 'value': 3, 'value_squared': 9}]
+[2025-06-23T19:52:11.890+0000] {taskinstance.py:441} INFO - ::group::Post task execution logs
+[2025-06-23T19:52:11.908+0000] {taskinstance.py:1206} INFO - Marking task as SUCCESS. dag_id=etl_pipeline, task_id=transform, run_id=manual__2025-06-23T19:51:56.244440+00:00, execution_date=20250623T195156, start_date=20250623T195211, end_date=20250623T195211
+[2025-06-23T19:52:11.930+0000] {local_task_job_runner.py:240} INFO - Task exited with return code 0
+[2025-06-23T19:52:11.947+0000] {taskinstance.py:3498} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2025-06-23T19:52:11.949+0000] {local_task_job_runner.py:222} INFO - ::endgroup::
