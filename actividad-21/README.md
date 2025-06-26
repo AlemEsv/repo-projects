@@ -272,7 +272,29 @@ def test_clone_with_local_file():
 
 ### Ejercicio 2.4: Submódulos con Composite
 
+El método **export** combina todos los recursos y submódulos agregados al objeto CompositeModule en un solo diccionario, que luego puede ser convertido directamente a un archivo JSON válido para Terraform.
+
 ```python
+    def export(self) -> Dict[str, Any]:
+        """
+        Exporta todos los recursos y submódulos agregados en un único diccionario.
+        Esta estructura se puede serializar directamente a un archivo Terraform JSON válido.
+
+        Returns:
+            Un diccionario con todos los recursos y módulos combinados.
+        """
+        merged: Dict[str, Any] = {"resource": [], "module": {}}
+        for child in self._children:
+            if "resource" in child:
+                merged["resource"].extend(child.get("resource", []))
+            if "module" in child:
+                merged["module"].update(child.get("module", {}))
+        # Elimina claves vacías para compatibilidad con Terraform
+        if not merged["resource"]:
+            del merged["resource"]
+        if not merged["module"]:
+            del merged["module"]
+        return merged
 ```
 
 ### Ejercicio 2.5: Builder personalizado

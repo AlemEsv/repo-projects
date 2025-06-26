@@ -28,14 +28,21 @@ class CompositeModule:
 
     def export(self) -> Dict[str, Any]:
         """
-        Exporta todos los recursos agregados en un único diccionario.
+        Exporta todos los recursos y submódulos agregados en un único diccionario.
         Esta estructura se puede serializar directamente a un archivo Terraform JSON válido.
 
         Returns:
-            Un diccionario con todos los recursos combinados bajo la clave "resource".
+            Un diccionario con todos los recursos y módulos combinados.
         """
-        aggregated: Dict[str, Any] = {"resource": []}
+        merged: Dict[str, Any] = {"resource": [], "module": {}}
         for child in self._children:
-            # Combina ordenadamente todos los bloques 'resource' de los hijos
-            aggregated["resource"].extend(child.get("resource", []))
-        return aggregated
+            if "resource" in child:
+                merged["resource"].extend(child.get("resource", []))
+            if "module" in child:
+                merged["module"].update(child.get("module", {}))
+        # Elimina claves vacías para compatibilidad con Terraform
+        if not merged["resource"]:
+            del merged["resource"]
+        if not merged["module"]:
+            del merged["module"]
+        return merged
