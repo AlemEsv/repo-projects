@@ -298,15 +298,3 @@ El método **export** combina todos los recursos y submódulos agregados al obje
 ```
 
 ### Ejercicio 2.5: Builder personalizado
-
-## Fase 3: Desafíos teórico-prácticos
-
-### 3.1 Comparativa Factory vs Prototype
-
-### 3.2 Patrones avanzados: Adapter (código de referencia)
-
-### 3.3 Tests automatizados con pytest
-
-### 3.4 Escalabilidad de JSON
-
-### 3.5 Integración con Terraform Cloud (opcional)
