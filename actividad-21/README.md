@@ -143,6 +143,15 @@ Resaltamos entonces la naturaleza recursiva del patrón, donde solo definimos lo
 
 Extiende el código base en una rama nueva por ejercicio:
 
+### Ejecución
+
+Para probar cada uno de los patrones de diseño ejecuta los siguientes comandos para cada uno de los tests.
+
+```bash
+cd local_iac_patterns/test_iac_patterns
+pytest test_<patron>.py
+```
+
 ### Ejercicio 2.1: Extensión del Singleton
 
 `Reset` permite limpiar la configuración sin perder información sobre la instancia o su creación
@@ -230,7 +239,41 @@ def test_timestamped_factor_simple():
 
 ### Ejercicio 2.3: Mutaciones avanzadas con Prototype
 
+Valida el uso del patrón Prototype para clonar y mutar recursos de Terraform representados como diccionarios.
+
+```python
+from local_iac_patterns.iac_patterns.prototype import ResourcePrototype
+
+#mutator
+def add_welcome_file(block: dict):
+    block["resource"]["null_resource"]["app_0"]["triggers"]["welcome"] = "¡Hola!"
+    block["resource"]["local_file"] = {
+        "welcome_txt": {
+            "content": "Bienvenido",
+            "filename": "${path.module}/bienvenida.txt"
+        }
+    }
+
+def test_clone_with_local_file():
+    prototipo_base = {
+        "resource": {
+            "null_resource": {
+                "app_0": {
+                    "triggers": {}
+                }
+            }
+        }
+    }
+    proto = ResourcePrototype(prototipo_base)
+    clon = proto.clone(mutator=add_welcome_file)
+    assert "local_file" in clon.data["resource"]
+    assert clon.data["resource"]["null_resource"]["app_0"]["triggers"]["welcome"] == "¡Hola!"
+```
+
 ### Ejercicio 2.4: Submódulos con Composite
+
+```python
+```
 
 ### Ejercicio 2.5: Builder personalizado
 
