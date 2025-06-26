@@ -15,6 +15,10 @@
   - [Ejercicio 2.4: Submódulos con Composite](#ejercicio-24-submódulos-con-composite)
   - [Ejercicio 2.5: Builder personalizado](#ejercicio-25-builder-personalizado)
 - [Fase 3: Desafíos teórico-prácticos](#fase-3-desafíos-teórico-prácticos)
+  - [3.1 Comparativa Factory vs Prototype](#31-comparativa-factory-vs-prototype)
+  - [3.2 Patrones avanzados: Adapter](#32-patrones-avanzados-adapter)
+  - [3.3 Tests automatizados con pytest](#33-tests-automatizados-con-pytest)
+  - [3.4 Escalabilidad de JSON](#34-escalabilidad-de-json)
 
 ## Fase 1: Exploración y análisis
 
@@ -377,3 +381,86 @@ Factory crea objetos directamente, sin copias profundas, por lo que es más efic
 Como se dijo anteriormente, factory sería más fácil de mantener debido a la creación de recursos simples, Prototype puede complicar el mantenimiento si las mutaciones son muchas o muy variadas.
 
 ## 3.2 Patrones avanzados: Adapter
+
+Patrón adapter que transforma un bloque null_resource en un recurso simulado mock_cloud_bucket. Esto permite reutilizar la estructura de null_resource para otros propósitos en pruebas.
+
+```python
+# adapter.py
+class MockBucketAdapter:
+    def __init__(self, null_block: dict):
+        self.null = null_block
+
+    def to_bucket(self) -> dict:
+        # Mapear triggers a parámetros de bucket simulado
+        name = list(self.null["resource"]["null_resource"].keys())[0]
+        return {
+            "resource": {
+                "mock_cloud_bucket": {
+                    name: {"name": name, **self.null["resource"]["null_resource"][name]["triggers"]}
+                }
+            }
+        }
+```
+
+- Pruebas de integración:
+
+valida que el recurso adaptado se exporta correctamente como mock_cloud_bucket usando el builder.
+
+```python
+# ...
+def test_adapter_in_builder_export():
+    # Crea un null_resource usando la factory
+    null_block = NullResourceFactory.create("mybucket")
+    # Usa el adapter para convertirlo en un mock_cloud_bucket
+    bucket_block = MockBucketAdapter(null_block).to_bucket()
+    # Usa el builder para agregar el recurso adaptado
+    builder = InfrastructureBuilder("dev")
+    builder.module.add(bucket_block)
+    # Exporta a un archivo temporal
+    with tempfile.TemporaryDirectory() as tmpdir:
+        path = os.path.join(tmpdir, "main.tf.json")
+        builder.export(path)
+        with open(path) as f:
+            data = json.load(f)
+        # Validación: debe existir el recurso mock_cloud_bucket
+        assert "resource" in data
+        assert "mock_cloud_bucket" in data["resource"]
+        assert "mybucket" in data["resource"]["mock_cloud_bucket"]
+```
+
+## 3.3 Tests automatizados con pytest
+
+```python
+def test_singleton_meta():
+    a = ConfigSingleton("X"); b = ConfigSingleton("Y")
+    assert a is b
+
+def test_prototype_clone_independent():
+    proto = ResourcePrototype(NullResourceFactory.create("app"))
+    c1 = proto.clone(lambda b: b.__setitem__("foo", 1))
+    c2 = proto.clone(lambda b: b.__setitem__("bar", 2))
+    assert "foo" not in c2 and "bar" not in c1
+```
+
+## 3.4 Escalabilidad de JSON
+
+- Ejemplo de medición
+
+```python
+import os
+
+small_tf_file = os.path.getsize("terraform/main_short.tf.json")
+large_tf_file = os.path.getsize("terraform/main_large.tf.json")
+print(f"Con 15 recursos: {small_tf_file/1024:.2f} KB")
+print(f"Con 150 recursos: {small_tf_file/1024:.2f} KB")
+```
+
+- Estrategias de fragmentación
+
+**Uso de módulos**
+
+Encapsulando grupos de recursos en módulos reutilizables, reduciendo el tamaño de cada archivo.
+
+**Automatización de generación**
+
+Generar archivos de terraform solo para recursos necesarios en cada entorno, evitando archivos monolíticos, creando más recursos pequeños que levanten una infraestructura entre todos, como el patrón builder.
