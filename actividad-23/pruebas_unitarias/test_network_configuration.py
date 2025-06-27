@@ -1,6 +1,10 @@
 import json
 import pytest
-CONFIG_FILE = 'network_config.json'
+import os
+
+# Get the directory where this test file is located
+TEST_DIR = os.path.dirname(os.path.abspath(__file__))
+CONFIG_FILE = os.path.join(TEST_DIR, 'network_config.json')
 
 @ pytest.fixture(scope="module")
 def conf():
